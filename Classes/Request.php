@@ -24,9 +24,19 @@ class Request
      */
     public $files;
 
+    /**
+     * Uploaded files ($_POST['_method'] or $_SERVER['REQUEST_METHOD']).
+     */
+    public $method;
+
+    public $instance;
     public function __construct()
     {
-        $this->initialize();
+        if ($this->instance === null) {
+            $this::initialize();
+        }
+
+        return $this->instance;
     }
 
     public function initialize()
@@ -35,6 +45,8 @@ class Request
         $this->query = $_GET;
         $this->files = $_FILES;
         $this->server = $_SERVER;
+        $this->method = $this->getMethod();
+        $this->instance = $this;
     }
 
     public function url()
@@ -45,6 +57,11 @@ class Request
     public function fullUrl()
     {
         return $this->server['REQUEST_URI'];
+    }
+
+    public function getMethod()
+    {
+       return $this->request['_method'] ?: $_SERVER['REQUEST_METHOD'];
     }
 
     public function __get($key)

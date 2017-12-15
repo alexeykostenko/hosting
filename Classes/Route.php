@@ -7,14 +7,6 @@ use \Hosting\Controller;
 class Route
 {
     /**
-     * The route action string.
-     *
-     * @var string
-     */
-    public $action;
-
-
-    /**
      * Register a new GET route with the router.
      *
      * @param  string  $uri
@@ -22,7 +14,7 @@ class Route
      */
     public function get($uri, $action)
     {
-        return self::actionCall($uri, $action);
+        return self::actionCall('GET', $uri, $action);
     }
 
     /**
@@ -33,7 +25,7 @@ class Route
      */
     public function post($uri, $action)
     {
-        return self::actionCall($uri, $action);
+        return self::actionCall('POST', $uri, $action);
     }
 
     /**
@@ -44,7 +36,7 @@ class Route
      */
     public function put($uri, $action)
     {
-        return self::actionCall($uri, $action);
+        return self::actionCall('PUT', $uri, $action);
     }
 
     /**
@@ -55,7 +47,7 @@ class Route
      */
     public function delete($uri, $action)
     {
-        return self::actionCall($uri, $action);
+        return self::actionCall('DELETE', $uri, $action);
     }
 
     /**
@@ -64,8 +56,12 @@ class Route
      * @param  string  $uri
      * @param  string  $action
      */
-    public function actionCall($uri, $action)
+    public function actionCall($method, $uri, $action)
     {
+        if ($method !== request()->_method) {
+            return false;
+        }
+
         if ($uri !== request()->url()) {
             throw new \Exception("The uri {$uri} doesn't exist");
         }
