@@ -46,4 +46,9 @@ class Request
     {
         return $this->server['REQUEST_URI'];
     }
+
+    public function __get($key)
+    {
+        return $this->request[$key];
+    }
 }

@@ -4,23 +4,18 @@ namespace Hosting\Model;
 
 class Image
 {
-	public function upload()
-	{
+    public function create($data)
+    {
+        return 'id';
+    }
 
-	}
+    public function update($id, $data)
+    {
+        return true;
+    }
 
-	public function add()
-	{
-
-	}
-
-	public function update()
-	{
-
-	}
-
-	public function delete()
-	{
-
-	}
+    public function delete($id)
+    {
+        return true;
+    }
 }
