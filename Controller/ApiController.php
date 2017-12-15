@@ -4,14 +4,9 @@ namespace Hosting\Controller;
 
 class ApiController
 {
-    public function upload()
+    public function create()
     {
-
-    }
-
-    public function add()
-    {
-
+        dd(request());
     }
 
     public function update()
