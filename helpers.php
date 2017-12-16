@@ -49,7 +49,7 @@ function app_path($path = '')
  */
 function image_relative_path($path = '')
 {
-    return 'storage' . DIRECTORY_SEPARATOR . 'images' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    return config('images_folder') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
 function normalize_files($files)

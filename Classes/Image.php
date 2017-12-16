@@ -26,8 +26,14 @@ class Image
         return $imagick->writeImage($actualFilename);
     }
 
-    public function saveThumb()
+    public function saveThumb($filename)
     {
-        return 'saveThumb';
+        $imagick = new \Imagick($this->image);
+        $width = config('thumbnail_width');
+        $height = config('thumbnail_height');
+
+        $imagick->thumbnailImage($width, $height);
+        $actualFilename = get_actual_path(config('thumbnail_folder') . '/' . $filename);
+        return $imagick->writeImage($actualFilename);
     }
 }
