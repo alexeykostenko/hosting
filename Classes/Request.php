@@ -1,52 +1,56 @@
 <?php
 
-namespace Hosting\Classes;
+namespace Classes;
 
 class Request
 {
     /**
      * Request body parameters ($_POST).
      */
-    public $request;
+    private $request;
 
     /**
      * Query string parameters ($_GET).
      */
-    public $query;
+    private $query;
 
     /**
      * Server and execution environment parameters ($_SERVER).
      */
-    public $server;
+    private $server;
 
     /**
      * Uploaded files ($_FILES).
      */
-    public $files;
+    private $files;
 
     /**
      * Uploaded files ($_POST['_method'] or $_SERVER['REQUEST_METHOD']).
      */
-    public $method;
+    private $method;
 
-    public $instance;
-    public function __construct()
-    {
-        if ($this->instance === null) {
-            $this::initialize();
+    static private $instance = null;
+
+    private function __construct() { /* ... @return Singleton */ }  // Protect from creation via new Singleton
+    private function __clone() { /* ... @return Singleton */ }  // Protect from creation via cloning
+    private function __wakeup() { /* ... @return Singleton */ }  // Protect from creation via unserialize
+
+    static public function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+            self::$instance->initialize();
         }
 
-        return $this->instance;
+        return self::$instance;
     }
 
-    public function initialize()
+    private function initialize()
     {
-        $this->request = $_POST;
+        $this->request = $_POST ?: $_GET;
         $this->query = $_GET;
         $this->files = $_FILES;
         $this->server = $_SERVER;
         $this->method = $this->getMethod();
-        $this->instance = $this;
     }
 
     public function url()
@@ -61,11 +65,11 @@ class Request
 
     public function getMethod()
     {
-       return $this->request['_method'] ?: $_SERVER['REQUEST_METHOD'];
+       return isset($this->request['_method']) ? $this->request['_method'] : $_SERVER['REQUEST_METHOD'];
     }
 
     public function __get($key)
     {
-        return $this->request[$key];
+        return isset($this->request[$key]) ? $this->request[$key] : null;
     }
 }

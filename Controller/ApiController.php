@@ -1,15 +1,15 @@
 <?php
 
-namespace Hosting\Controller;
+namespace Controller;
 
-use Hosting\Classes\Image;
-use Hosting\Model\Image as ImageModal;
+use Classes\Image;
+use Model\Image as ImageModal;
 
 class ApiController
 {
     public function create()
     {
-        $limit = 5;
+        $limit = config('limit_upload_images');
         $images = array_slice(request()->images, 0, $limit);
 
         foreach ($images as $imageName) {

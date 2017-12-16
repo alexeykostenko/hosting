@@ -1,8 +1,8 @@
 <?php
 
-namespace Hosting\Classes;
+namespace Classes;
 
-use \Hosting\Controller;
+use Controller;
 
 class Route
 {
@@ -62,15 +62,17 @@ class Route
             return false;
         }
 
+        $uri = '/' . ltrim($uri, '/');
+
         if ($uri !== request()->url()) {
-            throw new \Exception("The uri {$uri} doesn't exist");
+            throw new \Exception("The uri " . request()->url() . " doesn't exist");
         }
 
         $actionParts = explode('@', $action);
         $controller = $actionParts[0];
         $action = $actionParts[1];
 
-        $namespaceController = '\\Hosting\\Controller\\' . $controller;
+        $namespaceController = '\\Controller\\' . $controller;
 
         if (!class_exists($namespaceController)) {
             throw new \Exception("The class {$namespaceController} does not exist");

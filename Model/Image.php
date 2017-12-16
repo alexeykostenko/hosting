@@ -1,6 +1,6 @@
 <?php
 
-namespace Hosting\Model;
+namespace Model;
 
 class Image
 {
