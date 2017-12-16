@@ -7,27 +7,27 @@ class Request
     /**
      * Request body parameters ($_POST).
      */
-    private $request;
+    public $request;
 
     /**
      * Query string parameters ($_GET).
      */
-    private $query;
+    public $query;
 
     /**
      * Server and execution environment parameters ($_SERVER).
      */
-    private $server;
+    public $server;
 
     /**
      * Uploaded files ($_FILES).
      */
-    private $files;
+    public $files;
 
     /**
      * Uploaded files ($_POST['_method'] or $_SERVER['REQUEST_METHOD']).
      */
-    private $method;
+    public $method;
 
     static private $instance = null;
 

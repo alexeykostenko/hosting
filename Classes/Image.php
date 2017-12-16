@@ -4,7 +4,7 @@ namespace Classes;
 
 class Image
 {
-    public static $image;
+    public $image;
     private static $_instance = null;
 
     public function make($image)
@@ -13,13 +13,15 @@ class Image
             self::$_instance = new self;
         }
 
-        self::$image = $image;
+        self::$_instance->image = $image;
+
         return self::$_instance;
     }
 
-    public function save()
+    public function save($filename)
     {
-        return 'save';
+        $imagick = new \Imagick($this->image);
+        return $imagick->writeImage(image_relative_path($filename));
     }
 
     public function saveThumb()

@@ -21,7 +21,6 @@ function request()
 function config($key = null, $default = null)
 {
     $configFile = 'config.php';
-
     $config = new Classes\Config;
 
     if (is_null($key)) {
@@ -40,4 +39,30 @@ function config($key = null, $default = null)
 function app_path($path = '')
 {
     return __DIR__ . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+}
+
+/**
+ * Get the relative path to the image storage.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function image_relative_path($path = '')
+{
+    return 'storage' . DIRECTORY_SEPARATOR . 'images' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+}
+
+function normalize_files($files)
+{
+    $normalize_files = [];
+    $files_count = count($files['name']);
+    $files_keys = array_keys($files);
+
+    for ($i = 0; $i < $files_count; $i++) {
+        foreach ($files_keys as $key) {
+            $normalize_files[$i][$key] = $files[$key][$i];
+        }
+    }
+
+    return $normalize_files;
 }

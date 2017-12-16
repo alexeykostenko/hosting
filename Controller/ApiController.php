@@ -9,13 +9,21 @@ class ApiController
 {
     public function create()
     {
-        $limit = config('limit_upload_images');
-        $images = array_slice(request()->images, 0, $limit);
+        if (!isset(request()->files['images']) || !is_array(request()->files['images'])) {
+            return false;
+        }
 
-        foreach ($images as $imageName) {
-            $image = Image::make($imageName);
-            $imageName = $image->save();
-            ImageModal::create(['name' => $imageName]);
+        $images = normalize_files(request()->files['images']);
+
+        $limit = config('limit_upload_images');
+        $images = array_slice($images, 0, $limit);
+
+        foreach ($images as $image) {
+            $imageSaved = Image::make($image["tmp_name"])->save($image["name"]);
+
+            if ($imageSaved) {
+                ImageModal::create($image);
+            }
         }
     }
 
