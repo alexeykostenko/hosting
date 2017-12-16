@@ -21,7 +21,9 @@ class Image
     public function save($filename)
     {
         $imagick = new \Imagick($this->image);
-        return $imagick->writeImage(image_relative_path($filename));
+        $actualFilename = get_actual_path(image_relative_path($filename));
+
+        return $imagick->writeImage($actualFilename);
     }
 
     public function saveThumb()

@@ -66,3 +66,21 @@ function normalize_files($files)
 
     return $normalize_files;
 }
+
+function get_actual_path($path)
+{
+    $original_name = pathinfo($path,PATHINFO_FILENAME);
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+    $actual_path = $path;
+    $i = 1;
+
+    while(file_exists($actual_path))
+    {
+        $actual_name = (string) $original_name . '(' . $i . ')';
+        $actual_path = str_replace($original_name . "." . $extension, $actual_name . "." . $extension, $path);
+        $i++;
+    }
+
+    return $actual_path;
+}
