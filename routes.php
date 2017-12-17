@@ -12,5 +12,5 @@
 use Classes\Route;
 
 Route::post('images', 'ApiController@create');
-Route::put('images/{id}', 'ApiController@update');
-Route::delete('images/{id}', 'ApiController@delete');
+Route::put('images', 'ApiController@update');
+Route::delete('images', 'ApiController@delete');

@@ -72,4 +72,10 @@ class Request
     {
         return isset($this->request[$key]) ? $this->request[$key] : null;
     }
+
+    public function validate(array $data) {
+        if (false) {
+            return 'redirect back with errors';
+        }
+    }
 }

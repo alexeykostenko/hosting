@@ -29,11 +29,25 @@ class ApiController
 
     public function update()
     {
+        request()->validate([
+            'id' => 'number|exists:images',
+            'title' => 'required|max:100',
+            'description' => 'required|max:255',
+        ]);
 
+        $data = [];
+        $data['title'] = request()->title;
+        $data['description'] = request()->description;
+
+        model('Image')->update($data, request()->id);
     }
 
     public function delete()
     {
+        request()->validate([
+            'id' => 'number|exists:images',
+        ]);
 
+        model('Image')->delete(request()->id);
     }
 }
