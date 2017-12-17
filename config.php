@@ -9,4 +9,10 @@ return [
     'thumbnail_folder' => 'storage/images/thumbs',
     'thumbnail_width' => 100,
     'thumbnail_height' => 100,
+
+    //DB
+    'host' => 'localhost',
+    'database' => 'hosting',
+    'username' => 'root',
+    'password' => '2002'
 ];

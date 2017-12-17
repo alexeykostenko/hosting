@@ -84,3 +84,9 @@ function get_actual_path($path)
 
     return $actual_path;
 }
+
+function model($model)
+{
+    $namespaceModel = '\\Model\\' . $model;
+    return new $namespaceModel();
+}

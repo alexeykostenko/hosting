@@ -14,17 +14,16 @@ class ApiController
         }
 
         $images = normalize_files(request()->files['images']);
-
         $limit = config('limit_upload_images');
-
         $images = array_slice($images, 0, $limit);
 
         foreach ($images as $image) {
             $img = Image::make($image["tmp_name"]);
-            $img->save($image["name"]);
-            $img->saveThumb($image["name"]);
+            $imageName = $image["name"];
+            $image['image'] = $img->save($imageName);
+            $image['thumb'] = $img->saveThumb($imageName);
 
-            ImageModal::create($image);
+            model('Image')->create($image);
         }
     }
 

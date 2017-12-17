@@ -2,20 +2,15 @@
 
 namespace Model;
 
-class Image
+class Image extends Model
 {
-    public function create($data)
-    {
-        return 'id';
-    }
-
-    public function update($id, $data)
-    {
-        return true;
-    }
-
-    public function delete($id)
-    {
-        return true;
-    }
+    protected $table = 'images';
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+        'thumb',
+        'type',
+        'size'
+    ];
 }
