@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Classes\Image;
+use Classes\Task;
 use Model\Image as ImageModal;
 
 class ApiController
@@ -19,11 +20,14 @@ class ApiController
 
         foreach ($images as $image) {
             $img = Image::make($image["tmp_name"]);
-            $imageName = $image["name"];
-            $image['image'] = $img->save($imageName);
-            $image['thumb'] = $img->saveThumb($imageName);
+            $image['image'] = $img->save($image["name"]);
 
-            model('Image')->create($image);
+            $id = model('Image')->create($image);
+
+            $task = [];
+            $task['number'] = $id;
+
+            (new Task('image'))->add($task);
         }
     }
 
