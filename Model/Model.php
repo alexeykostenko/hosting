@@ -8,6 +8,8 @@ abstract class Model
 {
     private $connection;
     private $model;
+    private $select = '*';
+    private $stmt;
 
     public function __construct(PDO $connection = null)
     {
@@ -23,9 +25,9 @@ abstract class Model
                 PDO::ATTR_ERRMODE, 
                 PDO::ERRMODE_EXCEPTION
             );
-
-            $this->model = get_called_class();
         }
+
+        $this->model = get_called_class();
     }
 
     public function find($id)
@@ -54,6 +56,33 @@ abstract class Model
 
         // fetchAll() will do the same as above, but we'll have an array. ie:
         return $stmt->fetchAll();
+    }
+
+    public function select($select)
+    {
+        $this->select = $select;
+        return $this;
+    }
+
+    public function where($column, $operator, $value)
+    {
+        $this->stmt = $this->connection->prepare("
+            SELECT $this->select
+            FROM $this->table
+            WHERE $column $operator :$column
+        ");
+
+        $this->stmt->bindParam(":$column", $value);
+
+        return $this;
+    }
+
+    public function get()
+    {
+        $this->stmt->execute();
+        $this->stmt->setFetchMode(PDO::FETCH_CLASS, $this->model);
+
+        return $this->stmt->fetchAll();
     }
 
     public function create(array $data)
