@@ -4,6 +4,6 @@
 - make DB and import from Database/sql/db.sql
 
 ### Usage
-- upload image link http://hosting.loc/create.php
-- change title and description image link http://hosting.loc/update.php
-- remove image link http://hosting.loc/delete.php
+- upload image link http://hosting.loc/views/create.php
+- change title and description image link http://hosting.loc/views/update.php
+- remove image link http://hosting.loc/views/delete.php
