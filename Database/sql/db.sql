@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: hosting
+-- Host: localhost    Database: hosting
 -- ------------------------------------------------------
 -- Server version	5.7.20-0ubuntu0.16.04.1
 
@@ -27,7 +27,7 @@ CREATE TABLE `images` (
   `title` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `image` varchar(255) NOT NULL,
-  `thumb` varchar(255) NOT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
   `type` varchar(20) NOT NULL,
   `size` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -42,6 +42,31 @@ LOCK TABLES `images` WRITE;
 /*!40000 ALTER TABLE `images` DISABLE KEYS */;
 /*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -52,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-17 15:15:50
+-- Dump completed on 2017-12-18 19:53:11
