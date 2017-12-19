@@ -71,7 +71,7 @@ abstract class Model
         ");
 
         $this->stmt->bindParam(":$this->column", $this->value);
-//dd($this->table, $this->where);
+
         $this->stmt->execute();
         return $this->stmt->fetchColumn();
     }
