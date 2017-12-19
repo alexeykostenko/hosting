@@ -1,3 +1,5 @@
+## Image Hosting
+
 ### Installation
 - clone repository
 - add write access to the storage folder
