@@ -1,6 +1,6 @@
 <?php 
 
-namespace Model;
+namespace Library;
 
 use \PDO;
 
@@ -9,7 +9,11 @@ abstract class Model
     private $connection;
     private $model;
     private $select = '*';
+    private $where = '1=1';
     private $stmt;
+    private $column;
+    private $operator;
+    private $value;
 
     public function __construct(PDO $connection = null)
     {
@@ -58,6 +62,20 @@ abstract class Model
         return $stmt->fetchAll();
     }
 
+    public function count()
+    {
+        $this->stmt = $this->connection->prepare("
+            SELECT count(*)
+            FROM $this->table
+            WHERE $this->where
+        ");
+
+        $this->stmt->bindParam(":$this->column", $this->value);
+//dd($this->table, $this->where);
+        $this->stmt->execute();
+        return $this->stmt->fetchColumn();
+    }
+
     public function select($select)
     {
         $this->select = $select;
@@ -66,19 +84,40 @@ abstract class Model
 
     public function where($column, $operator, $value)
     {
+        $this->where = "$column $operator :$column";
+        $this->column = $column;
+        $this->operator = $operator;
+        $this->value = $value;
+
+        return $this;
+    }
+
+    public function whereIn($column, array $values)
+    {
+        $inQuery = implode(',', array_fill(0, count($values), '?'));
+
         $this->stmt = $this->connection->prepare("
             SELECT $this->select
             FROM $this->table
-            WHERE $column $operator :$column
+            WHERE $column in ($inQuery)
         ");
 
-        $this->stmt->bindParam(":$column", $value);
+        foreach ($values as $key => $value) {
+            $this->stmt->bindValue($key + 1, $value);
+        }
 
         return $this;
     }
 
     public function get()
     {
+        $this->stmt = $this->connection->prepare("
+            SELECT $this->select
+            FROM $this->table
+            WHERE $this->where
+        ");
+
+        $this->stmt->bindParam(":$this->column", $this->value);
         $this->stmt->execute();
         $this->stmt->setFetchMode(PDO::FETCH_CLASS, $this->model);
 

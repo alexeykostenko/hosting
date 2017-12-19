@@ -34,10 +34,14 @@ class ApiController
     public function update()
     {
         request()->validate([
-            'id' => 'number|exists:images',
+            'id' => 'number|exists:images|unique:tasks,number',
             'title' => 'required|max:100',
             'description' => 'required|max:255',
         ]);
+
+        if ((new Task('image'))->exists(request()->id)) {
+            return false;
+        }
 
         $data = [];
         $data['title'] = request()->title;
@@ -49,8 +53,12 @@ class ApiController
     public function delete()
     {
         request()->validate([
-            'id' => 'number|exists:images',
+            'id' => 'number|exists:images|unique:tasks,number',
         ]);
+
+        if ((new Task('image'))->exists(request()->id)) {
+            return false;
+        }
 
         model('Image')->delete(request()->id);
     }

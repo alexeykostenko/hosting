@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Library\Model;
+
 class Task extends Model
 {
     protected $table = 'tasks';

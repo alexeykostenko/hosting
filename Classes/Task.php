@@ -14,7 +14,7 @@ class Task
     public function perform()
     {
         $modelName = ucfirst($this->type);
-        model($modelName)->performTask();
+        return model($modelName)->performTask();
     }
 
     public function add($task)
@@ -22,6 +22,18 @@ class Task
         $task['type'] = $this->type;
         $task['created_at'] = date('Y-m-d h:i:s');
 
-        model('Task')->create($task);
+        return model('Task')->create($task);
+    }
+
+    public function remove($number)
+    {
+        return model('Task')->delete($number);
+    }
+
+    public function exists($number)
+    {
+        return (bool) model('Task')
+            ->where('number', '=', $number)
+            ->count();
     }
 }
